@@ -8,7 +8,7 @@ Don't have time and want to get hacking right away? Check out the [Getting Start
 * [Troubleshooting](#troubleshooting)
 * [Encountered any bugs?](#encountered-any-bugs)
 
-The `gpt-commit-summarizer` GitHub Action is a powerful tool that harnesses the capabilities of OpenAI's state-of-the-art text-davinci-003 large language model to provide summaries of the changes introduced by a pull request in a repository. By generating the git diff for each commit and for each modified file and sending it to the OpenAI API with a carefully crafted prompt, the action is able to produce concise and informative summaries that can greatly enhance collaboration and understanding in large codebases.
+The `gpt-commit-summarizer` GitHub Action is a powerful tool that harnesses the capabilities of OpenAI's state-of-the-art gpt-4o-mini large language model to provide summaries of the changes introduced by a pull request in a repository. By generating the git diff for each commit and for each modified file and sending it to the OpenAI API with a carefully crafted prompt, the action is able to produce concise and informative summaries that can greatly enhance collaboration and understanding in large codebases.
 
 The action then performs a higher level call to the OpenAI API to generate a summary of the entire pull request, from the summaries of individual commits and file differences. This summary is then posted as a comment on the pull request.
 
