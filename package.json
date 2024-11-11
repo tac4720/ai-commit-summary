@@ -1,5 +1,5 @@
 {
-  "name": "gpt-commit-summrizer",
+  "name": "@dirtycajunrice/ai-commit-summary",
   "version": "1.0.0",
   "main": "lib/index.js",
   "license": "MIT",

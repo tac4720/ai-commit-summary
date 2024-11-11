@@ -22,7 +22,7 @@ Readability is top priority. Write only the most important comments about the di
 EXAMPLE SUMMARY COMMENTS:
 \`\`\`
 * Raised the amount of returned recordings from \`10\` to \`100\` [packages/server/recordings_api.ts], [packages/server/constants.ts]
-* Fixed a typo in the github action name [.github/workflows/gpt-commit-summarizer.yml]
+* Fixed a typo in the github action name [.github/workflows/ai-commit-summary.yml]
 * Moved the \`octokit\` initialization to a separate file [src/octokit.ts], [src/index.ts]
 * Added an OpenAI API for completions [packages/utils/apis/openai.ts]
 * Lowered numeric tolerance for test files
