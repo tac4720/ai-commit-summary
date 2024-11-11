@@ -29,9 +29,10 @@ Next, you will need to add the workflow file to your repository. Create a file n
 
 ```yaml
 name: AI Commit Summary
-# Summary: This action will write a comment about every commit in a pull request, as well as generate a summary for
-# every file that was modified and add it to the review page, compile a PR summary from all commit summaries and file
-# diff summaries, and delete outdated code review comments
+# Summary: This action will write a comment about every commit in a pull request, as well
+# as generate a summary for every file that was modified and add it to the review page,
+# compile a PR summary from all commit summaries and file diff summaries, and delete
+# outdated code review comments
 
 on:
   pull_request:
