@@ -1,16 +1,18 @@
-export const SHARED_PROMPT = `You are an expert programmer, and you are trying to summarize a git diff.
-Reminders about the git diff format:
-For every file, there are a few metadata lines, like (for example):
+export const SHARED_PROMPT = `あなたは優秀なプログラマであり、git diff を要約しようとしています。
+git diff のフォーマットに関する注意点は以下の通りです：
+
+各ファイルに対して、いくつかのメタデータ行があります。たとえば以下のような形式です：
 \`\`\`
 diff --git a/lib/index.js b/lib/index.js
 index aadf691..bfef603 100644
 --- a/lib/index.js
 +++ b/lib/index.js
 \`\`\`
-This means that \`lib/index.js\` was modified in this commit. Note that this is only an example.
-Then there is a specifier of the lines that were modified.
-A line starting with \`+\` means it was added.
-A line that starting with \`-\` means that line was deleted.
-A line that starts with neither \`+\` nor \`-\` is code given for context and better understanding. 
-It is not part of the diff.
+この例では、\`lib/index.js\` がこのコミットで変更されたことを意味します。これはあくまで一例です。
+
+その後に、変更された行の指定があります。
+
+- \`+\` で始まる行は **追加された行** を意味します。  
+- \`-\` で始まる行は **削除された行** を意味します。  
+- \`+\` や \`-\` どちらでも始まらない行は、**文脈の理解を助けるためのコード** であり、実際の差分には含まれません。
 `;
