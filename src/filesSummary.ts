@@ -1,4 +1,10 @@
-import type { PayloadRepository } from "@actions/github/lib/interfaces";
+// PayloadRepository型の代わりに独自のインターフェースを定義
+interface PayloadRepository {
+  owner: {
+    login: string;
+  };
+  name: string;
+}
 
 import { octokit } from "./octokit";
 import { MAX_OPEN_AI_QUERY_LENGTH, MAX_TOKENS, MODEL_NAME, openai, TEMPERATURE } from "./openAi";
@@ -22,14 +28,14 @@ const OPEN_AI_PROMPT = `${SHARED_PROMPT}
 
 以下の形式で出力してください：
 
-    SUMMARY: と書いてから、その差分で行われた変更点の要約を箇条書きで記述してください。
+    要約: と書いてから、その差分で行われた変更点の要約を箇条書きで記述してください。
 
     各箇条書きは * で始めてください。
 
 例：
 
-SUMMARY:
-* 関数の引数に新しいオプション `timeout` を追加
+要約:
+* 関数の引数に新しいオプション \`timeout\` を追加
 * 不要なログ出力を削除
 * コメントを英語から日本語に変更
 
@@ -43,12 +49,12 @@ async function getOpenAISummaryForFile(
   patch: string
 ): Promise<string> {
   try {
-    const openAIPrompt = `THE GIT DIFF OF ${filename} TO BE SUMMARIZED:\n\`\`\`\n${patch}\n\`\`\`\n\nSUMMARY:\n`;
-    console.log(`OpenAI file summary prompt for ${filename}:\n${openAIPrompt}`);
+    const openAIPrompt = `要約するための ${filename} の GIT DIFF：\n\`\`\`\n${patch}\n\`\`\`\n\n要約:\n`;
+    console.log(`${filename} のファイル要約プロンプト:\n${openAIPrompt}`);
 
     if (openAIPrompt.length > MAX_OPEN_AI_QUERY_LENGTH) {
       // noinspection ExceptionCaughtLocallyJS
-      throw new Error("OpenAI query too big");
+      throw new Error("OpenAIクエリが大きすぎます");
     }
 
     const completion = await openai.chat.completions.create({
@@ -61,13 +67,13 @@ async function getOpenAISummaryForFile(
     });
     if (completion.choices !== undefined && completion.choices.length > 0) {
       return (
-        completion.choices[0].message.content ?? "Error: couldn't generate summary"
+        completion.choices[0].message.content ?? "エラー: 要約を生成できませんでした"
       );
     }
   } catch (error) {
     console.error(error);
   }
-  return "Error: couldn't generate summary";
+  return "エラー: 要約を生成できませんでした";
 }
 
 async function getReviewComments(
@@ -177,7 +183,7 @@ export async function getFilesSummaries(
       modifiedFiles[modifiedFile].diff
     );
     result[modifiedFile] = fileAnalysisAndSummary;
-    const comment = `GPT summary of [${modifiedFiles[
+    const comment = `[${modifiedFiles[
       modifiedFile
     ].originSha.slice(0, 6)}](https://github.com/${repository.owner.login}/${
       repository.name
@@ -186,10 +192,9 @@ export async function getFilesSummaries(
     }) - [${modifiedFiles[modifiedFile].sha.slice(0, 6)}](https://github.com/${
       repository.owner.login
     }/${repository.name}/blob/${headCommitSha}/${modifiedFile}#${
-      modifiedFiles[modifiedFile].sha
-    }):\n${fileAnalysisAndSummary}`;
+      modifiedFiles[modifiedFile].sha}) のGPT要約:\n${fileAnalysisAndSummary}`;
     console.log(
-      `Adding comment to line ${modifiedFiles[modifiedFile].position}`
+      `${modifiedFiles[modifiedFile].position} 行目にコメントを追加`
     );
     await octokit.pulls.createReviewComment({
       owner: repository.owner.login,

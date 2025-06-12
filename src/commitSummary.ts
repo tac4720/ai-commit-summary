@@ -89,12 +89,12 @@ async function getOpenAICompletion(
     const openAIPrompt = `THE GIT DIFF TO BE SUMMARIZED:\n\`\`\`\n${rawGitDiff}\n\`\`\`\n\nTHE SUMMERY:\n`;
 
     console.log(
-      `OpenAI prompt for commit ${diffMetadata.commit.data.sha}: ${openAIPrompt}`
+      `コミット ${diffMetadata.commit.data.sha} のためのOpenAIプロンプト: ${openAIPrompt}`
     );
 
     if (openAIPrompt.length > MAX_OPEN_AI_QUERY_LENGTH) {
       // noinspection ExceptionCaughtLocallyJS
-      throw new Error("OpenAI query too big");
+      throw new Error("OpenAIクエリが大きすぎます");
     }
 
     const response = await openai.chat.completions.create({
@@ -110,7 +110,7 @@ async function getOpenAICompletion(
     if (response.choices !== undefined && response.choices.length > 0) {
       completion = postprocessSummary(
         diffResponse.data.files.map((file: any) => file.filename),
-        response.choices[0].message.content ?? "Error: couldn't generate summary",
+        response.choices[0].message.content ?? "エラー: 要約を生成できませんでした",
         diffMetadata
       );
     }
@@ -152,10 +152,10 @@ export async function summarizeCommits(
 
   let needsToSummarizeHead = false;
   for (const commit of commits) {
-    // Check if a comment for this commit already exists
-    const expectedComment = `GPT summary of ${commit.sha}:`;
+    // このコミットに対するコメントが既に存在するか確認
+    const expectedComment = `${commit.sha} のGPT要約:`;
     const regex = new RegExp(`^${expectedComment}.*`);
-    const existingComment = comments.find((comment) =>
+    const existingComment = comments.find((comment: { body?: string }) =>
       regex.test(comment.body ?? "")
     );
 
@@ -196,7 +196,7 @@ export async function summarizeCommits(
       head: commit.sha
     });
 
-    let completion = "Error: couldn't generate summary";
+    let completion = "エラー: 要約を生成できませんでした";
     if (!isMergeCommit) {
       completion = await getOpenAICompletion(comparison, completion, {
         sha: commit.sha,
