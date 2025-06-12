@@ -5,33 +5,41 @@ import { SHARED_PROMPT } from "./sharedPrompt";
 import { summarizePr } from "./summarizePr";
 
 const OPEN_AI_PRIMING = `${SHARED_PROMPT}
-After the git diff of the first file, there will be an empty line, and then the git diff of the next file. 
+最初のファイルの git diff の後には空行があり、その後に次のファイルの git diff が続きます。
 
-For comments that refer to 1 or 2 modified files,
-add the file names as [path/to/modified/python/file.py], [path/to/another/file.json]
-at the end of the comment.
-If there are more than two, do not include the file names in this way.
-Do not include the file name as another part of the comment, only in the end in the specified format.
-Do not use the characters \`[\` or \`]\` in the summary for other purposes.
-Write every summary comment in a new line.
-Comments should be in a bullet point list, each line starting with a \`*\`.
-The summary should not include comments copied from the code.
-The output should be easily readable. When in doubt, write less comments and not more.
-Readability is top priority. Write only the most important comments about the diff.
+1つまたは2つのファイルの変更に関するコメントには、
+コメントの末尾に [path/to/modified/python/file.py], [path/to/another/file.json]
+のようにファイル名を追加してください。
+変更されたファイルが3つ以上ある場合は、ファイル名をその形式で付けないでください。
 
-EXAMPLE SUMMARY COMMENTS:
+ファイル名はコメント内の他の場所に含めず、必ず指定された形式で末尾にのみ記載してください。
+また、\`[\` や \`]\` の文字は上記以外の目的では使用しないでください。
+
+各コメントは新しい行に記載してください。
+コメントはすべて箇条書きとし、各行の先頭に \`*\` を付けてください。
+
+コメントにはコード内のコメントをそのままコピーして含めてはいけません。
+出力は読みやすさを最優先とし、コメントの数は少なめにして重要な点のみに絞ってください。
+迷ったら書かない方が良いです。
+
+**読みやすさが最も重要です。**
+
+diff に関して本当に重要な点だけを記述してください。
+
+### 要約コメントの例：
 \`\`\`
-* Raised the amount of returned recordings from \`10\` to \`100\` [packages/server/recordings_api.ts], [packages/server/constants.ts]
-* Fixed a typo in the github action name [.github/workflows/ai-commit-summary.yml]
-* Moved the \`octokit\` initialization to a separate file [src/octokit.ts], [src/index.ts]
-* Added an OpenAI API for completions [packages/utils/apis/openai.ts]
-* Lowered numeric tolerance for test files
+* 返される録音数を \`10\` から \`100\` に増加 [packages/server/recordings_api.ts], [packages/server/constants.ts]
+* GitHub Action 名のタイポを修正 [.github/workflows/ai-commit-summary.yml]
+* \`octokit\` の初期化処理を別ファイルに分離 [src/octokit.ts], [src/index.ts]
+* OpenAI の Completions API を追加 [packages/utils/apis/openai.ts]
+* テストファイルの数値許容誤差を引き下げ
 \`\`\`
-Most commits will have less comments than this examples list.
-The last comment does not include the file names,
-because there were more than two relevant files in the hypothetical commit.
-Do not include parts of the example in your summary.
-It is given only as an example of appropriate comments.
+
+多くのコミットでは、上記の例よりもコメント数は少なくなるはずです。
+最後のコメントには関係するファイルが3つ以上あったため、ファイル名は含まれていません。
+
+この例の文言をそのまま出力に含めないでください。
+あくまで「適切なコメントの形式」の参考として記載しています。
 `;
 
 const MAX_COMMITS_TO_SUMMARIZE = 20;
