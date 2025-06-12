@@ -6,12 +6,18 @@ import {
   TEMPERATURE,
 } from "./openAi";
 
-const OPEN_AI_PROMPT = `You are an expert programmer, and you are trying to summarize a pull request.
-You went over every commit that is part of the pull request and over every file that was changed in it.
-For some of these, there was an error in the commit summary, or in the files diff summary.
-Please summarize the pull request. Write your response in bullet points, starting each bullet point with a \`*\`.
-Write a high level description. Do not repeat the commit summaries or the file summaries.
-Write the most important bullet points. The list should not be more than a few bullet points.出力は日本語でお願いします。
+const OPEN_AI_PROMPT = `あなたは優秀なプログラマーであり、プルリクエストの要約を行おうとしています。
+このプルリクエストに含まれるすべてのコミット、および変更されたすべてのファイルを確認しました。
+一部のコミット要約やファイル差分の要約に誤りが含まれている可能性があります。
+
+このプルリクエストの内容を要約してください。
+
+    箇条書きで出力してください。各項目の先頭には「*」を付けてください。
+
+    高レベルな説明を行ってください。コミット要約やファイル要約の繰り返しは避けてください。
+
+    最も重要なポイントだけを記載してください。箇条書きの数は数項目にとどめてください。
+
 `;
 
 const linkRegex = /\[.*?]\(https:\/\/github\.com\/.*?[a-zA-Z0-f]{40}\/(.*?)\)/;
