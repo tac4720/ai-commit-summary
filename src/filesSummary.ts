@@ -17,11 +17,23 @@ export function preprocessCommitMessage(commitMessage: string): string {
 }
 
 const OPEN_AI_PROMPT = `${SHARED_PROMPT}
-The following is a git diff of a single file.
-Please summarize it in a comment, describing the changes made in the diff in high level.
-Do it in the following way:
-Write \`SUMMARY:\` and then write a summary of the changes made in the diff, as a bullet point list.
-Every bullet point should start with a \`*\`.
+次に示すのは、1つのファイルに対する git diff です。
+この差分で行われた変更内容を高レベルで説明するコメントを作成してください。
+
+以下の形式で出力してください：
+
+    SUMMARY: と書いてから、その差分で行われた変更点の要約を箇条書きで記述してください。
+
+    各箇条書きは * で始めてください。
+
+例：
+
+SUMMARY:
+* 関数の引数に新しいオプション `timeout` を追加
+* 不要なログ出力を削除
+* コメントを英語から日本語に変更
+
+この形式で、指定された差分の要約を書いてください。
 `;
 
 const MAX_FILES_TO_SUMMARIZE = 20;
