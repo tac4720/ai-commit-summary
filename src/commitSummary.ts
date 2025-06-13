@@ -213,7 +213,9 @@ export async function summarizeCommits(
     commitSummaries.push([ commit.sha, completion ]);
 
     // Create a comment on the pull request with the names of the files that were modified in the commit
-    const comment = `GPT summary of ${commit.sha}:\n\n${completion}`;
+    const comment = `${commit.sha} のGPT要約:
+
+${completion}`;
 
     if (commit.sha !== headCommit) {
       await octokit.issues.createComment({
@@ -242,7 +244,13 @@ export async function summarizeCommits(
     } catch (error) {
       console.error(error);
     }
-    const comment = `GPT summary of ${headCommit}:\n\n${headCommitShaAndSummary[1]}\n\nPR summary so far:\n\n${prSummary}`;
+    const comment = `${headCommit} のGPT要約:
+
+${headCommitShaAndSummary[1]}
+
+PR全体の要約:
+
+${prSummary}`;
     await octokit.issues.createComment({
       owner: repository.owner.login,
       repo: repository.name,
