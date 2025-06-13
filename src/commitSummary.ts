@@ -26,6 +26,8 @@ const OPEN_AI_PRIMING = `${SHARED_PROMPT}
 
 diff に関して本当に重要な点だけを記述してください。
 
+**必ず日本語で出力してください。英語は使用せず、すべての出力を日本語のみにしてください。**
+
 ### 要約コメントの例：
 \`\`\`
 * 返される録音数を \`10\` から \`100\` に増加 [packages/server/recordings_api.ts], [packages/server/constants.ts]
